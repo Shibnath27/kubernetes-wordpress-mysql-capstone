@@ -9,6 +9,25 @@ This capstone project deploys a full **WordPress + MySQL** stack on Kubernetes. 
 
 ---
 
+### Concepts Used
+
+| # | Concept | Resource |
+|---|---------|----------|
+| 1 | Namespace | `capstone` |
+| 2 | Secret | `mysql-secret` |
+| 3 | ConfigMap | `wordpress-config` |
+| 4 | StatefulSet | `mysql` |
+| 5 | Headless Service | `mysql` (clusterIP: None) |
+| 6 | PersistentVolumeClaim | `mysql-data-mysql-0` (via volumeClaimTemplate) |
+| 7 | Deployment | `wordpress` |
+| 8 | NodePort Service | `wordpress` (port 30080) |
+| 9 | Resource Requests & Limits | Both MySQL and WordPress |
+| 10 | Liveness & Readiness Probes | Both MySQL and WordPress |
+| 11 | HorizontalPodAutoscaler | `wordpress-hpa` |
+| 12 | Helm (Bonus) | `bitnami/wordpress` in `wp-helm` namespace |
+
+---
+
 ## Architecture
 
 ![alt text](./docs/architecture-diagram.png)
