@@ -110,6 +110,55 @@ MySQL data survives pod restarts.
 HPA scales WordPress pods based on CPU utilization.
 
 ---
+##  Bonus: Compare with Helm
+
+```
+# Add Bitnami repo
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+# Install in a separate namespace
+helm install wp-helm bitnami/wordpress \
+  --namespace wp-helm \
+  --create-namespace \
+  --set wordpressUsername=admin \
+  --set wordpressPassword=adminPass123
+
+# See what Helm created
+kubectl get all -n wp-helm | wc -l
+```
+
+Comparison
+AspectManual (12 files)Helm (bitnami/wordpress)Resources created~8 manifests, you control every line20+ resources auto-generatedControlTotal — you see and own every fieldPartial — override via values.yamlRepeatabilityScript or Kustomize requiredhelm install is one commandUpgradesManual kubectl apply per filehelm upgrade with rollbackLearning value⭐⭐⭐⭐⭐ — understand every concept⭐⭐ — abstracted awayProduction speedSlow first time, fast with templatesFast from day one
+
+Verdict: Helm is faster for getting something running, but you pay with opacity. Understanding the manual approach (this capstone) is what makes you dangerous with Helm — you know what it's doing under the hood.
+
+```
+# Clean up Helm deployment
+helm uninstall wp-helm -n wp-helm
+kubectl delete namespace wp-helm
+```
+---
+
+## Key Lessons Learned
+
+1. StatefulSet vs Deployment — When to use which
+
+StatefulSet: Databases, message brokers, anything needing stable identity + dedicated storage
+Deployment: Stateless web apps, APIs — anything where pods are interchangeable
+
+2. envFrom vs secretKeyRef — Mixing both intentionally
+Using envFrom for the ConfigMap (all vars) and secretKeyRef for individual Secret keys is a deliberate security pattern: ConfigMaps can be read by anyone with namespace access, while Secrets (ideally) have tighter RBAC. Picking individual keys from a Secret also avoids leaking unrelated credentials.
+3. Probes — Timing matters
+Setting initialDelaySeconds too low causes crash loops. WordPress takes ~30s to connect to MySQL and initialize. The liveness probe fires later (60s) than the readiness probe (30s) so a slow-starting pod isn't killed before it has a chance to become ready.
+4. Headless Services — The StatefulSet DNS trick
+The DNS name pod-name.service-name.namespace.svc.cluster.local only works because of the Headless Service (clusterIP: None). Without it, you'd have to use a ClusterIP VIP which load-balances across all pods — not what you want for a primary database.
+5. HPA stabilization windows — Preventing flapping
+Setting a short scale-up window (30s) and long scale-down window (300s) is a classic pattern. Traffic spikes are real; rapid scale-up protects the site. Brief lulls between spikes shouldn't trigger scale-in — the 5-minute window absorbs that noise.
+6. Namespace as blast radius control
+kubectl delete namespace capstone cleanly removed 12 resources across 8 resource types in one command. This is the operational payoff of namespace-scoping everything.
+
+---
 
 ## Screenshots
 
