@@ -34,20 +34,73 @@ Persistent Volume Claim
 
 ---
 
+## Architecture
+
+┌─────────────────────────────────────────┐
+                        │           capstone namespace            │
+                        │                                         │
+  Browser               │  ┌──────────────┐   ┌──────────────┐  │
+  :30080  ─────────────►│  │  wordpress   │   │  wordpress   │  │
+                        │  │   pod-0      │   │   pod-1      │  │
+                        │  └──────┬───────┘   └──────┬───────┘  │
+                        │         │   Deployment (2-10 replicas) │
+                        │         │       ▲ HPA (50% CPU)        │
+                        │  NodePort│       │                      │
+                        │  Service │  ┌────┴──────────────────┐  │
+                        │  :30080  │  │    wordpress-config   │  │
+                        │          │  │    ConfigMap          │  │
+                        │          │  │  + mysql-secret       │  │
+                        │          │  └───────────────────────┘  │
+                        │          │                              │
+                        │          │  mysql-0.mysql.capstone      │
+                        │          │  .svc.cluster.local:3306     │
+                        │          ▼                              │
+                        │  ┌──────────────────────────────────┐  │
+                        │  │  Headless Service: mysql          │  │
+                        │  │  (clusterIP: None)               │  │
+                        │  └──────────────┬───────────────────┘  │
+                        │                 │                       │
+                        │  ┌──────────────▼───────────────────┐  │
+                        │  │  StatefulSet: mysql-0            │  │
+                        │  │  image: mysql:8.0                │  │
+                        │  │  cpu: 250m–500m  mem: 512Mi–1Gi  │  │
+                        │  └──────────────┬───────────────────┘  │
+                        │                 │ volumeClaimTemplate   │
+                        │  ┌──────────────▼───────────────────┐  │
+                        │  │  PVC: mysql-data-mysql-0 (1Gi)   │  │
+                        │  └──────────────────────────────────┘  │
+                        └─────────────────────────────────────────┘
+
+
+---
+
 ## Project Structure
 
 ```bash
-manifests/
-├── namespace.yaml
-├── mysql-secret.yaml
-├── mysql-headless-service.yaml
-├── mysql-statefulset.yaml
-├── wordpress-configmap.yaml
-├── wordpress-deployment.yaml
-├── wordpress-service.yaml
-└── hpa.yaml
-```
+kubernetes-wordpress-mysql-capstone/
+│
+├── README.md
+│
+├── manifests/
+│   ├── namespace.yaml
+│   ├── mysql-secret.yaml
+│   ├── mysql-headless-service.yaml
+│   ├── mysql-statefulset.yaml
+│   ├── wordpress-configmap.yaml
+│   ├── wordpress-deployment.yaml
+│   ├── wordpress-service.yaml
+│   └── hpa.yaml
+│
+├── screenshots/
+│   ├── wordpress-ui.png
+│   ├── kubectl-get-all.png
+│   └── hpa-output.png
+│
+└── docs/
+    └── architecture-diagram.png
 
+```
+![alt text](image.png)
 ---
 
 ## Deployment
