@@ -9,7 +9,7 @@ This capstone project deploys a full **WordPress + MySQL** stack on Kubernetes. 
 
 ---
 
-### Concepts Used
+## Kubernetes Concepts Used
 
 | # | Concept | Resource |
 |---|---------|----------|
@@ -34,21 +34,6 @@ This capstone project deploys a full **WordPress + MySQL** stack on Kubernetes. 
 
 ---
 
-## Kubernetes Concepts Used
-
-- Namespace Isolation
-- Secrets
-- ConfigMaps
-- StatefulSets
-- Headless Services
-- Deployments
-- NodePort Services
-- Persistent Volume Claims
-- Resource Requests & Limits
-- Liveness & Readiness Probes
-- Horizontal Pod Autoscaler
-
----
 
 ## Project Structure
 
