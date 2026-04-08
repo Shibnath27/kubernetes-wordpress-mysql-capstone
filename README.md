@@ -1,20 +1,17 @@
 # Kubernetes WordPress + MySQL Capstone Project
 
-Production-style multi-tier Kubernetes deployment of WordPress and MySQL demonstrating core Kubernetes orchestration concepts.
+> Ten days. Twelve concepts. One production-grade deployment.
+
+---
+## Overview
+
+This capstone project deploys a full **WordPress + MySQL** stack on Kubernetes. It integrates the core concepts from **Days 1–9 of the Kubernetes-Practice** repository into a single, production-style application. All resources are organized within the `capstone` namespace and managed via the `manifests/` directory.
 
 ---
 
 ## Architecture
 
-Client
-↓
-NodePort Service
-↓
-WordPress Deployment (2 Replicas)
-↓
-MySQL StatefulSet
-↓
-Persistent Volume Claim
+![alt text](./docs/architecture-diagram.png)
 
 ---
 
@@ -32,11 +29,6 @@ Persistent Volume Claim
 - Liveness & Readiness Probes
 - Horizontal Pod Autoscaler
 
----
-
-## Architecture
-
-![alt text](./docs/architecture-diagram.png)
 ---
 
 ## Project Structure
