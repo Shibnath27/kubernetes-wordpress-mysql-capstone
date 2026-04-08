@@ -128,16 +128,25 @@ helm install wp-helm bitnami/wordpress \
 kubectl get all -n wp-helm | wc -l
 ```
 
-Comparison
-AspectManual (12 files)Helm (bitnami/wordpress)Resources created~8 manifests, you control every line20+ resources auto-generatedControlTotal — you see and own every fieldPartial — override via values.yamlRepeatabilityScript or Kustomize requiredhelm install is one commandUpgradesManual kubectl apply per filehelm upgrade with rollbackLearning value⭐⭐⭐⭐⭐ — understand every concept⭐⭐ — abstracted awayProduction speedSlow first time, fast with templatesFast from day one
+### Comparison
 
-Verdict: Helm is faster for getting something running, but you pay with opacity. Understanding the manual approach (this capstone) is what makes you dangerous with Helm — you know what it's doing under the hood.
+| Aspect | Manual (12 files) | Helm (`bitnami/wordpress`) |
+|--------|-------------------|----------------------------|
+| Resources created | ~8 manifests, you control every line | 20+ resources auto-generated |
+| Control | Total — you see and own every field | Partial — override via `values.yaml` |
+| Repeatability | Script or Kustomize required | `helm install` is one command |
+| Upgrades | Manual `kubectl apply` per file | `helm upgrade` with rollback |
+| Learning value | ⭐⭐⭐⭐⭐ — understand every concept | ⭐⭐ — abstracted away |
+| Production speed | Slow first time, fast with templates | Fast from day one |
 
-```
+**Verdict:** Helm is faster for getting something running, but you pay with opacity. Understanding the manual approach (this capstone) is what makes you dangerous with Helm — you know what it's doing under the hood.
+
+```bash
 # Clean up Helm deployment
 helm uninstall wp-helm -n wp-helm
 kubectl delete namespace wp-helm
 ```
+
 ---
 
 ## Key Lessons Learned
