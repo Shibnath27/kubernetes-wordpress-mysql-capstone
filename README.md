@@ -36,7 +36,7 @@ Persistent Volume Claim
 
 ## Architecture
 
-![alt text](docs/architecture-diagram.png.png)
+![alt text](./docs/architecture-diagram.png)
 ---
 
 ## Project Structure
