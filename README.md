@@ -8,7 +8,7 @@
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat-square&logo=mysql&logoColor=white)
 ![WordPress](https://img.shields.io/badge/WordPress-latest-21759B?style=flat-square&logo=wordpress&logoColor=white)
 ![Helm](https://img.shields.io/badge/Helm-3.x-0F1689?style=flat-square&logo=helm&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+
 
 ---
 
@@ -403,12 +403,6 @@ kubectl get all -n capstone
 4. **Secrets at the key level, not file level** — using `secretKeyRef` to pull individual keys forces you to be intentional about which credentials each workload actually needs.
 
 5. **Manual manifests beat Helm for learning** — Helm is faster to operate, but you can't debug what you don't understand. Building this by hand first means Helm's generated YAML is readable, not opaque.
-
----
-
-## 📄 License
-
-MIT — see [LICENSE](LICENSE) for details.
 
 ---
 
