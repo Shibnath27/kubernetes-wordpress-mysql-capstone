@@ -83,32 +83,33 @@ This capstone project deploys a full **WordPress + MySQL** stack on Kubernetes. 
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```bash
 kubernetes-wordpress-mysql-capstone/
 │
 ├── README.md
 │
-├── manifests/                  
-│   ├── namespace.yaml                # capstone namespace
-│   ├── mysql-secret.                 # MySQL credentials (Secret)
-│   ├── mysql-headless-service.yaml   # Headless Service for StatefulSet DNS
-│   ├── mysql-statefulset.yaml        # MySQL StatefulSet + volumeClaimTemplate
-│   ├── wordpress-configmap.yaml      # DB host + DB name (ConfigMap)
-│   ├── wordpress-deployment.yaml     # WordPress Deployment + probes
-│   ├── wordpress-service.yaml        # NodePort Service (:30080)
-│   └── hpa.yaml                      # HPA (min:2, max:10, cpu:50%)
+├── manifests/
+│   ├── namespace.yaml              # capstone namespace
+│   ├── mysql-secret.yaml           # MySQL credentials (Secret / stringData)
+│   ├── mysql-headless-service.yaml # Headless Service for StatefulSet DNS
+│   ├── mysql-statefulset.yaml      # MySQL StatefulSet + volumeClaimTemplate
+│   ├── wordpress-configmap.yaml    # DB host + DB name (ConfigMap)
+│   ├── wordpress-deployment.yaml   # WordPress Deployment + probes
+│   ├── wordpress-service.yaml      # NodePort Service (:30080)
+│   └── hpa.yaml                    # HPA (min:2, max:10, cpu:50%)
 │
 ├── screenshots/
-│   ├── wordpress-ui.png
-│   ├── kubectl-get-all.png
-│   └── hpa-output.png
+│   ├── wordpress-ui.png            # WordPress setup / site running
+│   ├── kubectl-get-all.png         # kubectl get all -n capstone output
+│   └── hpa-output.png              # kubectl get hpa -n capstone output
 │
 └── docs/
-    └── architecture-diagram.png
-
+    └── architecture-diagram.png    # Full stack architecture diagram
 ```
+
+---
 
 ## ⚡ Quick Start
 
@@ -117,8 +118,15 @@ kubernetes-wordpress-mysql-capstone/
 git clone https://github.com/<your-username>/kubernetes-wordpress-mysql-capstone.git
 cd kubernetes-wordpress-mysql-capstone
 
-# 2. Apply everything at once
-kubectl apply -k manifests/
+# 2. Apply all manifests in order
+kubectl apply -f manifests/namespace.yaml
+kubectl apply -f manifests/mysql-secret.yaml
+kubectl apply -f manifests/mysql-headless-service.yaml
+kubectl apply -f manifests/mysql-statefulset.yaml
+kubectl apply -f manifests/wordpress-configmap.yaml
+kubectl apply -f manifests/wordpress-deployment.yaml
+kubectl apply -f manifests/wordpress-service.yaml
+kubectl apply -f manifests/hpa.yaml
 
 # 3. Set capstone as default namespace
 kubectl config set-context --current --namespace=capstone
@@ -143,7 +151,7 @@ kubectl port-forward svc/wordpress 8080:80 -n capstone
 ### Task 1 — Create the Namespace
 
 ```bash
-kubectl apply -f manifests/01-namespace.yaml
+kubectl apply -f manifests/namespace.yaml
 kubectl config set-context --current --namespace=capstone
 ```
 
@@ -154,9 +162,9 @@ Every resource in this project is scoped to the `capstone` namespace. This means
 ### Task 2 — Deploy MySQL
 
 ```bash
-kubectl apply -f manifests/02-mysql-secret.yaml
-kubectl apply -f manifests/03-mysql-headless-service.yaml
-kubectl apply -f manifests/04-mysql-statefulset.yaml
+kubectl apply -f manifests/mysql-secret.yaml
+kubectl apply -f manifests/mysql-headless-service.yaml
+kubectl apply -f manifests/mysql-statefulset.yaml
 
 # Wait for mysql-0 to be ready
 kubectl wait pod/mysql-0 --for=condition=Ready --timeout=120s -n capstone
@@ -188,8 +196,8 @@ Expected output:
 ### Task 3 — Deploy WordPress
 
 ```bash
-kubectl apply -f manifests/05-wordpress-configmap.yaml
-kubectl apply -f manifests/06-wordpress-deployment.yaml
+kubectl apply -f manifests/wordpress-configmap.yaml
+kubectl apply -f manifests/wordpress-deployment.yaml
 
 # Watch both pods reach 1/1 Running
 kubectl get pods -n capstone -l app=wordpress -w
@@ -211,7 +219,7 @@ wordpress-7d9f8b6c4-mn8qr   1/1     Running   0
 ### Task 4 — Expose WordPress
 
 ```bash
-kubectl apply -f manifests/07-wordpress-service.yaml
+kubectl apply -f manifests/wordpress-service.yaml
 
 # Minikube
 minikube service wordpress -n capstone
@@ -261,7 +269,7 @@ kubectl exec -it mysql-0 -n capstone -- \
 ### Task 6 — Horizontal Pod Autoscaler
 
 ```bash
-kubectl apply -f manifests/08-wordpress-hpa.yaml
+kubectl apply -f manifests/hpa.yaml
 
 kubectl get hpa -n capstone
 ```
@@ -396,14 +404,6 @@ kubectl get all -n capstone
 
 5. **Manual manifests beat Helm for learning** — Helm is faster to operate, but you can't debug what you don't understand. Building this by hand first means Helm's generated YAML is readable, not opaque.
 
-
-
----
-
-## Screenshots
-
-Add screenshots in `/screenshots`
-
 ---
 
 ## 📄 License
@@ -412,8 +412,8 @@ MIT — see [LICENSE](LICENSE) for details.
 
 ---
 
-## Author
 <p align="center">
-  <strong>**Shibnath Das**
-    DevOps / Cloud Infrastructure Engineer</strong>
+  ## Author
+  <strong>Shibnath Das</strong>
+  <strong>DevOps / Cloud Infrastructure Engineer</strong>
 </p>
