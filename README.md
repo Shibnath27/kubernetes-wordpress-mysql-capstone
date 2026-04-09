@@ -174,7 +174,7 @@ kubectl wait pod/mysql-0 --for=condition=Ready --timeout=120s -n capstone
 
 ```bash
 kubectl exec -it mysql-0 -n capstone -- \
-  mysql -u wpuser -pwpP@ssw0rd! -e "SHOW DATABASES;"
+  mysql -u wpuser -pwppass123 -e "SHOW DATABASES;"
 ```
 
 Expected output:
@@ -260,7 +260,7 @@ Once `mysql-0` is `1/1 Running`, refresh WordPress in your browser. Your blog po
 ```bash
 # Confirm data survived
 kubectl exec -it mysql-0 -n capstone -- \
-  mysql -u wpuser -pwpP@ssw0rd! wordpress \
+  mysql -u wpuser -pwppass123 wordpress \
   -e "SELECT post_title FROM wp_posts WHERE post_status='publish';"
 ```
 
@@ -375,7 +375,7 @@ kubectl get pods -n capstone
 
 # MySQL has the wordpress database
 kubectl exec -it mysql-0 -n capstone -- \
-  mysql -u wpuser -pwpP@ssw0rd! -e "SHOW DATABASES;"
+  mysql -u wpuser -pwppass123 -e "SHOW DATABASES;"
 
 # PVC is bound
 kubectl get pvc -n capstone
