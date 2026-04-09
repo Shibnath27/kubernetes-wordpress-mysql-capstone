@@ -413,7 +413,9 @@ MIT — see [LICENSE](LICENSE) for details.
 ---
 
 <div align="center">
-**Shibnath** **Das**
+
+**Shibnath Das**
 
 DevOps / Cloud Infrastructure Engineer
+
 </div>
