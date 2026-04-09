@@ -412,8 +412,7 @@ MIT — see [LICENSE](LICENSE) for details.
 
 ---
 
-<p align="center">
-  ## Author
-  <strong>Shibnath Das</strong>
-  <strong>DevOps / Cloud Infrastructure Engineer</strong>
-</p>
+<div align="center">
+  **Shibnath Das**
+  DevOps / Cloud Infrastructure Engineer
+</div>
