@@ -51,18 +51,18 @@ This capstone project deploys a full **WordPress + MySQL** stack on Kubernetes. 
 
 | # | Concept | Resource Created | Day Learned |
 |---|---------|-----------------|-------------|
-| 1 | **Namespace** | `capstone` | Day 52 |
-| 2 | **Secret** | `mysql-secret` (stringData) | Day 54 |
-| 3 | **ConfigMap** | `wordpress-config` | Day 54 |
-| 4 | **StatefulSet** | `mysql` | Day 56 |
-| 5 | **Headless Service** | `mysql` (clusterIP: None) | Day 53 |
-| 6 | **PersistentVolumeClaim** | `mysql-data-mysql-0` (via volumeClaimTemplate) | Day 55 |
-| 7 | **Deployment** | `wordpress` | Day 57 |
-| 8 | **NodePort Service** | `wordpress` (:30080) | Day 53 |
-| 9 | **Resource Requests & Limits** | Both MySQL and WordPress | Day 58 |
-| 10 | **Liveness & Readiness Probes** | Both MySQL and WordPress | Day 57 |
-| 11 | **HorizontalPodAutoscaler** | `wordpress-hpa` | Day 58 |
-| 12 | **Helm** | `bitnami/wordpress` (bonus comparison) | Day 59 |
+| 1 | **Namespace** | `capstone` | Day 2 |
+| 2 | **Secret** | `mysql-secret` (stringData) | Day 4 |
+| 3 | **ConfigMap** | `wordpress-config` | Day 4 |
+| 4 | **StatefulSet** | `mysql` | Day 6 |
+| 5 | **Headless Service** | `mysql` (clusterIP: None) | Day 3 |
+| 6 | **PersistentVolumeClaim** | `mysql-data-mysql-0` (via volumeClaimTemplate) | Day 5 |
+| 7 | **Deployment** | `wordpress` | Day 7 |
+| 8 | **NodePort Service** | `wordpress` (:30080) | Day 3 |
+| 9 | **Resource Requests & Limits** | Both MySQL and WordPress | Day 8 |
+| 10 | **Liveness & Readiness Probes** | Both MySQL and WordPress | Day 7 |
+| 11 | **HorizontalPodAutoscaler** | `wordpress-hpa` | Day 8 |
+| 12 | **Helm** | `bitnami/wordpress` (bonus comparison) | Day 9 |
 
 ---
 
