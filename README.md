@@ -115,7 +115,7 @@ kubernetes-wordpress-mysql-capstone/
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/<your-username>/kubernetes-wordpress-mysql-capstone.git
+git clone https://github.com/Shibnath27/kubernetes-wordpress-mysql-capstone.git
 cd kubernetes-wordpress-mysql-capstone
 
 # 2. Apply all manifests in order
